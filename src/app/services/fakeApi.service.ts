@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, defer, throwError } from 'rxjs';
+import { Observable, of, defer, throwError, delay } from 'rxjs';
 
 import { LOCAL_STORAGE_KEY } from '../const/LocalStorage';
 import { UserProfile } from '../classes/UserProfile';
@@ -43,7 +43,7 @@ export class FakeApiService {
         const serializedValue = JSON.stringify(value);
         localStorage.setItem(LOCAL_STORAGE_KEY, serializedValue);
         console.log(`Successfully saved key: ${LOCAL_STORAGE_KEY}`);
-        return of(undefined);
+        return of(undefined).pipe(delay(artificialDelayMs));
       } catch (e: any) {
         console.error(
           `Error saving to localStorage for key: ${LOCAL_STORAGE_KEY}`,
@@ -54,7 +54,7 @@ export class FakeApiService {
             new Error(
               `Failed to save item '${LOCAL_STORAGE_KEY}': ${e?.message || e}`
             )
-        );
+        ).pipe(delay(artificialDelayMs));
       }
     });
   }
@@ -63,7 +63,7 @@ export class FakeApiService {
     return defer(() => {
       // --- ARTIFICIAL DELAY FOR DEMONSTRATION/DEBUGGING ---
       // Random delay between 100ms and 600ms to allow console to log
-      const artificialDelayMs = Math.random() * 500 + 100;
+      const artificialDelayMs = 5000; /*Math.random() * 500 + 100*/
       console.log(
         `[LocalStorageService] Operation for key '${LOCAL_STORAGE_KEY}' will have an artificial delay of ${artificialDelayMs.toFixed(
           0
@@ -83,15 +83,15 @@ export class FakeApiService {
               new Error(
                 `Simulated localStorage data corruption for key: '${LOCAL_STORAGE_KEY}'`
               )
-          );
+          ).pipe(delay(artificialDelayMs));
         }
 
         const serializedValue = localStorage.getItem(LOCAL_STORAGE_KEY);
         if (serializedValue === null) {
-          return of(null); // Key not found
+          return of(null).pipe(delay(artificialDelayMs)); // Key not found
         }
         const parsedValue = JSON.parse(serializedValue) as UserProfile;
-        return of(parsedValue);
+        return of(parsedValue).pipe(delay(artificialDelayMs));
       } catch (e: any) {
         console.error(
           `Error retrieving from localStorage for key: ${LOCAL_STORAGE_KEY}`,
@@ -103,7 +103,7 @@ export class FakeApiService {
             new Error(
               `Failed to save item '${LOCAL_STORAGE_KEY}': ${e?.message || e}`
             )
-        );
+        ).pipe(delay(artificialDelayMs));
       }
     });
   }

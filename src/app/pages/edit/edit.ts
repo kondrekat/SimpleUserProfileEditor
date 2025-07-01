@@ -15,11 +15,8 @@ export class Edit {
 
   constructor() {
     effect(() => {
-      const timestamp = new Date().toLocaleTimeString();
-      console.log(
-        `[${timestamp}] EFFECT: UserProfileService profileLoadStatus changed to:`,
-        this.userProfileService.profileLoadStatusSource$()
-      );
+      document.title =
+        this.userProfileService.currentProfile$().name + "'s page";
     });
   }
 

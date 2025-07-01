@@ -103,7 +103,7 @@ export class UserProfileService {
               );
               // Set the profile to current (edited) value if reading back failed
               // To make it more predictable for user
-              this.userProfileSource$.set(this.currentProfileSource$());
+              this.userProfileSource$.set({ ...this.currentProfileSource$() });
               this.profileLoadStatusSource$.set('error');
               console.log(
                 'this.profileLoadStatusSource$ = ' +
@@ -126,8 +126,8 @@ export class UserProfileService {
           // Here, readProfile is the value *just read from localStorage*
           if (readProfile) {
             // Update the signal with the value read *back* from localStorage
-            this.userProfileSource$.set(readProfile);
-            this.currentProfileSource$.set(readProfile);
+            this.userProfileSource$.set({ ...readProfile });
+            this.currentProfileSource$.set({ ...readProfile });
             this.profileLoadStatusSource$.set('success');
             console.log(
               'this.profileLoadStatusSource$ = ' +
@@ -166,7 +166,7 @@ export class UserProfileService {
   }
 
   public resetProfile() {
-    this.currentProfileSource$.set(this.userProfileSource$());
+    this.currentProfileSource$.set({ ...this.userProfileSource$() });
   }
 
   /**
@@ -185,8 +185,10 @@ export class UserProfileService {
         // tap runs every time on succes from Observable.
         // Here we update Signal userProfileSource$ & currentProfileSource$ with a profile from storage.
         tap((profile) => {
-          this.userProfileSource$.set(profile ? profile : DefaulUserProfile);
-          this.currentProfileSource$.set(this.userProfileSource$());
+          this.userProfileSource$.set(
+            profile ? { ...profile } : { ...DefaulUserProfile }
+          );
+          this.currentProfileSource$.set({ ...this.userProfileSource$() });
           this.profileLoadStatusSource$.set('success');
           console.log(
             'this.profileLoadStatusSource$ = ' + this.profileLoadStatusSource$()
@@ -204,8 +206,8 @@ export class UserProfileService {
             'UserProfileService: Loading from localStorage error:',
             error
           );
-          this.userProfileSource$.set(DefaulUserProfile); // Set Default value
-          this.currentProfileSource$.set(this.userProfileSource$());
+          this.userProfileSource$.set({ ...DefaulUserProfile }); // Set Default value
+          this.currentProfileSource$.set({ ...this.userProfileSource$() });
           this.profileLoadStatusSource$.set('error');
           console.log(
             'this.profileLoadStatusSource$ = ' + this.profileLoadStatusSource$()
