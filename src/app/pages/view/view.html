@@ -1,0 +1,9 @@
+<h2>View profile</h2>
+<p>Name: {{ userProfileService.userProfile$().name }}</p>
+<p>Email: {{ userProfileService.userProfile$().email }}</p>
+<p>Bio: {{ userProfileService.userProfile$().bio }}</p>
+<p>
+  Date of Birth:
+  {{ userProfileService.userProfile$().dateOfBirth | date : "yyyy-MM-dd" }}
+</p>
+<p>Valid: {{ userProfileService.isProfileValid$() }}</p>

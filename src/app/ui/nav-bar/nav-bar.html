@@ -1,0 +1,7 @@
+<nav class="main-nav">
+  <p>{{ userProfileService.userProfile$().name }}'s profile</p>
+  ==>
+  <p>{{ userProfileService.currentProfile$().name }}'s profile</p>
+  <a routerLink="/view" routerLinkActive="active">View Page</a> |
+  <a routerLink="/edit" routerLinkActive="active">Edit Page</a>
+</nav>

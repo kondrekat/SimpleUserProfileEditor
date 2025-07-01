@@ -1,0 +1,64 @@
+<h2>Edit profile</h2>
+<label>Name</label>
+<br />
+<input
+  type="text"
+  name="nameInput"
+  [value]="userProfileService.currentProfile$().name"
+  (input)="prepareDataForSaving('name', $event)"
+  placeholder="Type your name here..."
+/>
+
+<br />
+<label>Email</label>
+<br />
+<input
+  type="text"
+  name="emailInput"
+  [value]="userProfileService.currentProfile$().email"
+  (input)="prepareDataForSaving('email', $event)"
+  placeholder="Type your email here..."
+/>
+
+<br />
+<label>Bio</label>
+<br />
+<textarea
+  type="textbox"
+  name="bioInput"
+  [value]="userProfileService.currentProfile$().bio"
+  (input)="prepareDataForSaving('bio', $event)"
+  placeholder="Type your bio here..."
+  rows="5"
+  cols="50"
+></textarea>
+
+<br />
+<label>Date of Birth</label>
+<br />
+<input
+  type="date"
+  name="dateOfBirthInput"
+  [value]="userProfileService.currentProfile$().dateOfBirth"
+  (input)="prepareDataForSaving('dateOfBirth', $event)"
+  placeholder="Choose your date of birth..."
+/>
+
+<br />
+<button
+  (click)="userProfileService.saveProfile()"
+  [disabled]="
+    !userProfileService.isProfileValid$() || !userProfileService.hasChanges$()
+  "
+>
+  Save
+</button>
+
+<button
+  (click)="userProfileService.resetProfile()"
+  [disabled]="!userProfileService.hasChanges$()"
+>
+  Reset
+</button>
+
+<p>profileLoadStatus: {{ userProfileService.profileLoadStatus$() }}</p>
