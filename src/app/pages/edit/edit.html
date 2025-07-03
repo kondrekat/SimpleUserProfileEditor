@@ -1,64 +1,143 @@
-<h2>Edit profile</h2>
-<label>Name</label>
-<br />
-<input
-  type="text"
-  name="nameInput"
-  [value]="userProfileService.currentProfile$().name"
-  (input)="prepareDataForSaving('name', $event)"
-  placeholder="Type your name here..."
-/>
-
-<br />
-<label>Email</label>
-<br />
-<input
-  type="text"
-  name="emailInput"
-  [value]="userProfileService.currentProfile$().email"
-  (input)="prepareDataForSaving('email', $event)"
-  placeholder="Type your email here..."
-/>
-
-<br />
-<label>Bio</label>
-<br />
-<textarea
-  type="textbox"
-  name="bioInput"
-  [value]="userProfileService.currentProfile$().bio"
-  (input)="prepareDataForSaving('bio', $event)"
-  placeholder="Type your bio here..."
-  rows="5"
-  cols="50"
-></textarea>
-
-<br />
-<label>Date of Birth</label>
-<br />
-<input
-  type="date"
-  name="dateOfBirthInput"
-  [value]="userProfileService.currentProfile$().dateOfBirth"
-  (input)="prepareDataForSaving('dateOfBirth', $event)"
-  placeholder="Choose your date of birth..."
-/>
-
-<br />
-<button
-  (click)="userProfileService.saveProfile()"
-  [disabled]="
-    !userProfileService.isProfileValid$() || !userProfileService.hasChanges$()
-  "
+<div
+  [ngClass]="{
+    'is-invalid':
+      !userProfileService.isProfileValid$() && userProfileService.hasChanges$()
+  }"
+  class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5 dark:bg-gray-800 dark:text-gray-100 transition-colors duration-300"
 >
-  Save
-</button>
+  <div class="text-right">
+    <!--Fancy toggle start-->
+    <div
+      class="relative inline-block w-14 h-8 select-none transition-all duration-200 ease-in-out"
+    >
+      <input
+        type="checkbox"
+        name="themeToggle"
+        id="themeToggle"
+        class="absolute block w-full h-full cursor-pointer opacity-0 z-10"
+        [checked]="isDark()"
+        (change)="prepareDataForSaving('themePreference', $event)"
+      />
 
-<button
-  (click)="userProfileService.resetProfile()"
-  [disabled]="!userProfileService.hasChanges$()"
+      <label
+        for="themeToggle"
+        [ngClass]="{
+          'bg-gray-300': isDark(),
+          'bg-blue-300': !isDark()
+        }"
+        class="block w-full h-full rounded-full cursor-pointer transition-colors duration-200 ease-in-out"
+      >
+      </label>
+
+      <div
+        [ngClass]="{
+          'translate-x-full': isDark(),
+          'translate-x-0': !isDark()
+        }"
+        class="absolute left-1 top-1 w-6 h-6 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out pointer-events-none"
+      ></div>
+    </div>
+    <!--Fancy toggle end-->
+    <img
+      class="w-32 h-32 rounded-full mx-auto"
+      src="https://picsum.photos/200"
+      alt="Profile picture"
+    />
+  </div>
+  <p class="text-gray-800 mt-1 dark:text-white transition-colors duration-300">
+    <label>Name</label>
+
+    <input
+      type="text"
+      class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
+      name="nameInput"
+      [value]="userProfileService.currentProfile$().name"
+      (input)="prepareDataForSaving('name', $event)"
+      placeholder="Type your name here..."
+    />
+  </p>
+  <p class="text-gray-800 mt-1 dark:text-white transition-colors duration-300">
+    <label>Email</label>
+
+    <input
+      type="text"
+      class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
+      name="emailInput"
+      [value]="userProfileService.currentProfile$().email"
+      (input)="prepareDataForSaving('email', $event)"
+      placeholder="Type your email here..."
+    />
+  </p>
+  <p class="text-gray-800 mt-1 dark:text-white transition-colors duration-300">
+    <label>Date of Birth</label>
+
+    <input
+      class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
+      type="date"
+      name="dateOfBirthInput"
+      [value]="userProfileService.currentProfile$().dateOfBirth"
+      (input)="prepareDataForSaving('dateOfBirth', $event)"
+      placeholder="Choose your date of birth..."
+    />
+  </p>
+
+  <div class="mt-5">
+    <p
+      class="text-gray-800 mt-2 dark:text-white transition-colors duration-300"
+    >
+      <label>Bio</label>
+
+      <textarea
+        class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
+        type="textbox"
+        name="bioInput"
+        [value]="userProfileService.currentProfile$().bio"
+        (input)="prepareDataForSaving('bio', $event)"
+        placeholder="Type your bio here..."
+        rows="5"
+        cols="50"
+      ></textarea>
+    </p>
+  </div>
+  <div class="text-center text-gray-800 mt-6 mb-6">
+    <button
+      class="p-2 border rounded mr-6 w-3xs border-sky-500 bg-sky-500 text-white disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none dark:bg-sky-800 dark:border-sky-800 dark:disabled:border-gray-600 dark:disabled:bg-gray-600 dark:disabled:text-gray-300"
+      (click)="userProfileService.saveProfile()"
+      [disabled]="
+        !userProfileService.isProfileValid$() ||
+        !userProfileService.hasChanges$()
+      "
+    >
+      Save
+    </button>
+
+    <button
+      class="p-2 border rounded w-3xs border-sky-500 bg-sky-500 text-white disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none dark:bg-sky-800 dark:border-sky-800 dark:disabled:border-gray-600 dark:disabled:bg-gray-600 dark:disabled:text-gray-300"
+      (click)="userProfileService.resetProfile()"
+      [disabled]="!userProfileService.hasChanges$()"
+    >
+      Reset
+    </button>
+  </div>
+  @if(!userProfileService.isProfileValid$() && userProfileService.hasChanges$())
+  {
+  <p class="error-message">
+    Something is wrong with your profile. Change the data and look what will
+    happend
+  </p>
+  }
+</div>
+
+<!-- The Tooltip -->
+<div
+  [ngClass]="{
+    'bg-emerald-600': userProfileService.profileLoadStatus$() === 'success',
+    'bg-rose-600': userProfileService.profileLoadStatus$() === 'error',
+    'bg-gray-700': userProfileService.profileLoadStatus$() === 'loading'
+  }"
+  class="absolute top-32 right-2 z-10 p-3 rounded-lg text-white text-sm whitespace-nowrap shadow-lg"
 >
-  Reset
-</button>
-
-<p>profileLoadStatus: {{ userProfileService.profileLoadStatus$() }}</p>
+  <span>
+    {{ userProfileService.profileLoadStatus$() }}
+  </span>
+</div>

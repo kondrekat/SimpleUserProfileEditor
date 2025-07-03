@@ -76,16 +76,10 @@ export class UserProfileService {
     if (!profileToSave) {
       console.warn('UserProfileService: No profile to save.');
       this.profileLoadStatusSource$.set('idle');
-      console.log(
-        'this.profileLoadStatusSource$ = ' + this.profileLoadStatusSource$()
-      );
       return;
     }
 
     this.profileLoadStatusSource$.set('loading');
-    console.log(
-      'this.profileLoadStatusSource$ = ' + this.profileLoadStatusSource$()
-    );
     this.apiService
       .setItemToLocalStorage(profileToSave)
       .pipe(
@@ -105,10 +99,6 @@ export class UserProfileService {
               // To make it more predictable for user
               this.userProfileSource$.set({ ...this.currentProfileSource$() });
               this.profileLoadStatusSource$.set('error');
-              console.log(
-                'this.profileLoadStatusSource$ = ' +
-                  this.profileLoadStatusSource$()
-              );
               // Re-throw the error so the main subscribe error handler catches it
               return throwError(
                 () =>
@@ -130,10 +120,6 @@ export class UserProfileService {
             this.currentProfileSource$.set({ ...readProfile });
             this.profileLoadStatusSource$.set('success');
             console.log(
-              'this.profileLoadStatusSource$ = ' +
-                this.profileLoadStatusSource$()
-            );
-            console.log(
               'UserProfileService: Profile was successfully saved and recieved back from storage',
               readProfile
             );
@@ -143,10 +129,6 @@ export class UserProfileService {
               'UserProfileService: Profile was saved but wasnt finded while recieving it back'
             );
             this.profileLoadStatusSource$.set('error'); // Treat as an error in verification
-            console.log(
-              'this.profileLoadStatusSource$ = ' +
-                this.profileLoadStatusSource$()
-            );
           }
         }),
         // This catchError will catch errors from setItem OR getItemFromLocalStorage (if re-thrown by its catchError)
@@ -156,9 +138,6 @@ export class UserProfileService {
             error
           );
           this.profileLoadStatusSource$.set('error');
-          console.log(
-            'this.profileLoadStatusSource$ = ' + this.profileLoadStatusSource$()
-          );
           return throwError(() => error); // Re-throw if you want component to handle it
         })
       )
@@ -175,9 +154,6 @@ export class UserProfileService {
    */
   private loadProfile(): void {
     this.profileLoadStatusSource$.set('loading');
-    console.log(
-      'this.profileLoadStatusSource$ = ' + this.profileLoadStatusSource$()
-    );
 
     this.apiService
       .getItemFromLocalStorage<UserProfile>()
@@ -190,9 +166,6 @@ export class UserProfileService {
           );
           this.currentProfileSource$.set({ ...this.userProfileSource$() });
           this.profileLoadStatusSource$.set('success');
-          console.log(
-            'this.profileLoadStatusSource$ = ' + this.profileLoadStatusSource$()
-          );
           console.log(
             'UserProfileService: connect successfully. Profile was downloaded if exists',
             profile
@@ -209,9 +182,6 @@ export class UserProfileService {
           this.userProfileSource$.set({ ...DefaulUserProfile }); // Set Default value
           this.currentProfileSource$.set({ ...this.userProfileSource$() });
           this.profileLoadStatusSource$.set('error');
-          console.log(
-            'this.profileLoadStatusSource$ = ' + this.profileLoadStatusSource$()
-          );
           return throwError(() => error);
         })
       )

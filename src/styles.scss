@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.is-invalid {
+  @apply bg-rose-100 p-2 rounded-md border-rose-300 border-2;
+}
+
+.dark .is-invalid {
+  @apply border-rose-800;
+}
+
+.is-invalid button {
+  @apply bg-rose-300 border-rose-500;
+}
+
+.is-invalid .error-message {
+  @apply text-rose-500;
+}
