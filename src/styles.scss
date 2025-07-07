@@ -7,6 +7,10 @@
   @apply bg-rose-100 p-2 rounded-md border-rose-300 border-2;
 }
 
+html.dark {
+  @apply bg-gray-600 text-white;
+}
+
 .dark .is-invalid {
   @apply border-rose-800;
 }
