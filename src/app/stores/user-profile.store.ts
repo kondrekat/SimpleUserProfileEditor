@@ -49,14 +49,14 @@ export const UserProfileStore = signalStore(
           loadingStatus$: 'loading',
         });
         apiService
-          .setItemToLocalStorage(profileToSave)
+          .setItemToIndexedDB(profileToSave)
           .pipe(
             // After saving successfully (next: of(void)), immediately try to read it back
             switchMap(() => {
               console.log(
-                'UserProfileService: Profile was successfully saved localStorage. Now we are reading it back.'
+                'UserProfileService: Profile was successfully saved IndexedDB. Now we are reading it back.'
               );
-              return apiService.getItemFromLocalStorage<UserProfile>().pipe(
+              return apiService.getItemFromIndexedDB<UserProfile>().pipe(
                 // Handle potential errors during the *read* operation after save
                 catchError((readError) => {
                   console.error(
@@ -87,9 +87,9 @@ export const UserProfileStore = signalStore(
             }),
             // This tap only runs if both save AND read-back were successful
             tap((readProfile) => {
-              // Here, readProfile is the value *just read from localStorage*
+              // Here, readProfile is the value *just read from IndexedDB*
               if (readProfile) {
-                // Update the signal with the value read *back* from localStorage
+                // Update the signal with the value read *back* from IndexedDB
                 patchState(store, {
                   original$: { ...readProfile },
                 });
@@ -104,7 +104,7 @@ export const UserProfileStore = signalStore(
                   readProfile
                 );
               } else {
-                // This case means save was OK, but getItemFromLocalStorage returned null (e.g., key mysteriously disappeared)
+                // This case means save was OK, but getItemFromIndexedDB returned null (e.g., key mysteriously disappeared)
                 console.warn(
                   'UserProfileService: Profile was saved but wasnt finded while recieving it back'
                 );
@@ -113,7 +113,7 @@ export const UserProfileStore = signalStore(
                 }); // Treat as an error in verification
               }
             }),
-            // This catchError will catch errors from setItem OR getItemFromLocalStorage (if re-thrown by its catchError)
+            // This catchError will catch errors from setItem OR getItemFromIndexedDB (if re-thrown by its catchError)
             catchError((error) => {
               console.error(
                 'UserProfileService: Saving or verification error: ',
@@ -135,7 +135,7 @@ export const UserProfileStore = signalStore(
       },
 
       /**
-       * Load user profile from LocalStorage (which emulate API communication).
+       * Load user profile from IndexedDB (which emulate API communication).
        * Update `userProfile$` Signal and `profileLoadStatus` Signal.
        */
       _loadProfile(): void {
@@ -144,7 +144,7 @@ export const UserProfileStore = signalStore(
         });
 
         apiService
-          .getItemFromLocalStorage<UserProfile>()
+          .getItemFromIndexedDB<UserProfile>()
           .pipe(
             // tap runs every time on succes from Observable.
             // Here we update Signal userProfileSource$ & currentProfileSource$ with a profile from storage.
@@ -173,7 +173,7 @@ export const UserProfileStore = signalStore(
             // to ensure the stream complete
             catchError((error) => {
               console.error(
-                'UserProfileService: Loading from localStorage error:',
+                'UserProfileService: Loading from IndexedDB error:',
                 error
               );
 
