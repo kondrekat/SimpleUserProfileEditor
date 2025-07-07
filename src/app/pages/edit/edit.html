@@ -73,7 +73,7 @@
       class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
       type="date"
       name="dateOfBirthInput"
-      [value]="store.current$().dateOfBirth"
+      [value]="store.current$().dateOfBirth | date : 'yyyy-MM-dd'"
       (input)="prepareDataForSaving('dateOfBirth', $event)"
       placeholder="Choose your date of birth..."
     />
