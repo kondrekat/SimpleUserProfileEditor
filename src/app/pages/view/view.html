@@ -1,23 +1,25 @@
-<div class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
+<div
+  class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5 dark:bg-gray-800 dark:text-gray-100 transition-colors duration-300"
+>
   <img
     class="w-32 h-32 rounded-full mx-auto"
     src="https://picsum.photos/200"
     alt="Profile picture"
   />
   <h2 class="text-center text-2xl font-semibold mt-3">
-    {{ userProfileService.userProfile$().name }}
+    {{ store.original$().name }}
   </h2>
-  <p class="text-center text-gray-600 mt-1">
-    {{ userProfileService.userProfile$().email }}
+  <p class="text-center text-gray-600 mt-1 dark:text-gray-100">
+    {{ store.original$().email }}
   </p>
-  <p class="text-center text-gray-600 mt-1">
-    {{ userProfileService.userProfile$().dateOfBirth | date : "yyyy-MM-dd" }}
+  <p class="text-center text-gray-600 mt-1 dark:text-gray-100">
+    {{ store.original$().dateOfBirth | date : "yyyy-MM-dd" }}
   </p>
 
   <div class="mt-5">
     <h3 class="text-center text-xl font-semibold">Bio</h3>
-    <p class="text-gray-600 mt-2">
-      {{ userProfileService.userProfile$().bio }}
+    <p class="text-gray-600 mt-2 dark:text-gray-100">
+      {{ store.original$().bio }}
     </p>
   </div>
 </div>

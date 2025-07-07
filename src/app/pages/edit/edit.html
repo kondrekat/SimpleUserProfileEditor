@@ -1,7 +1,6 @@
 <div
   [ngClass]="{
-    'is-invalid':
-      !userProfileService.isProfileValid$() && userProfileService.hasChanges$()
+    'is-invalid': !store.isProfileValid$() && store.hasChanges$()
   }"
   class="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5 dark:bg-gray-800 dark:text-gray-100 transition-colors duration-300"
 >
@@ -46,13 +45,12 @@
   </div>
   <p class="text-gray-800 mt-1 dark:text-white transition-colors duration-300">
     <label>Name</label>
-
     <input
       type="text"
       class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
       name="nameInput"
-      [value]="userProfileService.currentProfile$().name"
-      (input)="prepareDataForSaving('name', $event)"
+      [value]="store.current$().name"
+      (input)="prepareDataForSavingStore('name', $event)"
       placeholder="Type your name here..."
     />
   </p>
@@ -63,7 +61,7 @@
       type="text"
       class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
       name="emailInput"
-      [value]="userProfileService.currentProfile$().email"
+      [value]="store.current$().email"
       (input)="prepareDataForSaving('email', $event)"
       placeholder="Type your email here..."
     />
@@ -75,7 +73,7 @@
       class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
       type="date"
       name="dateOfBirthInput"
-      [value]="userProfileService.currentProfile$().dateOfBirth"
+      [value]="store.current$().dateOfBirth"
       (input)="prepareDataForSaving('dateOfBirth', $event)"
       placeholder="Choose your date of birth..."
     />
@@ -91,7 +89,7 @@
         class="mr-4 w-full rounded border bg-gray-100 p-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-500 transition-colors duration-300"
         type="textbox"
         name="bioInput"
-        [value]="userProfileService.currentProfile$().bio"
+        [value]="store.current$().bio"
         (input)="prepareDataForSaving('bio', $event)"
         placeholder="Type your bio here..."
         rows="5"
@@ -102,25 +100,21 @@
   <div class="text-center text-gray-800 mt-6 mb-6">
     <button
       class="p-2 border rounded mr-6 w-3xs border-sky-500 bg-sky-500 text-white disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none dark:bg-sky-800 dark:border-sky-800 dark:disabled:border-gray-600 dark:disabled:bg-gray-600 dark:disabled:text-gray-300"
-      (click)="userProfileService.saveProfile()"
-      [disabled]="
-        !userProfileService.isProfileValid$() ||
-        !userProfileService.hasChanges$()
-      "
+      (click)="store.saveProfile()"
+      [disabled]="!store.isProfileValid$() || !store.hasChanges$()"
     >
       Save
     </button>
 
     <button
       class="p-2 border rounded w-3xs border-sky-500 bg-sky-500 text-white disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none dark:bg-sky-800 dark:border-sky-800 dark:disabled:border-gray-600 dark:disabled:bg-gray-600 dark:disabled:text-gray-300"
-      (click)="userProfileService.resetProfile()"
-      [disabled]="!userProfileService.hasChanges$()"
+      (click)="store.resetProfile()"
+      [disabled]="!store.hasChanges$()"
     >
       Reset
     </button>
   </div>
-  @if(!userProfileService.isProfileValid$() && userProfileService.hasChanges$())
-  {
+  @if(!store.isProfileValid$() && store.hasChanges$()) {
   <p class="error-message">
     Something is wrong with your profile. Change the data and look what will
     happend
@@ -131,13 +125,13 @@
 <!-- The Tooltip -->
 <div
   [ngClass]="{
-    'bg-emerald-600': userProfileService.profileLoadStatus$() === 'success',
-    'bg-rose-600': userProfileService.profileLoadStatus$() === 'error',
-    'bg-gray-700': userProfileService.profileLoadStatus$() === 'loading'
+    'bg-emerald-600': store.loadingStatus$() === 'success',
+    'bg-rose-600': store.loadingStatus$() === 'error',
+    'bg-gray-700': store.loadingStatus$() === 'loading'
   }"
   class="absolute top-32 right-2 z-10 p-3 rounded-lg text-white text-sm whitespace-nowrap shadow-lg"
 >
   <span>
-    {{ userProfileService.profileLoadStatus$() }}
+    {{ store.loadingStatus$() }}
   </span>
 </div>

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { UserProfileService } from '../../services/userProfile.service';
+import { UserProfileStore } from '../../stores/user-profile.store';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,5 +9,5 @@ import { UserProfileService } from '../../services/userProfile.service';
   styleUrl: './nav-bar.scss',
 })
 export class NavBar {
-  public userProfileService = inject(UserProfileService);
+  public store = inject(UserProfileStore);
 }

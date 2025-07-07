@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { UserProfileService } from '../../services/userProfile.service';
+import { UserProfileStore } from '../../stores/user-profile.store';
 
 @Component({
   selector: 'app-view',
@@ -9,5 +9,5 @@ import { UserProfileService } from '../../services/userProfile.service';
   styleUrl: './view.scss',
 })
 export class View {
-  public userProfileService = inject(UserProfileService);
+  public store = inject(UserProfileStore);
 }
